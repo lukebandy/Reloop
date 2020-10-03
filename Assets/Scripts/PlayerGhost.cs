@@ -85,6 +85,19 @@ public class PlayerGhost : MonoBehaviour {
             historyPlaybackPosition.Add(transform.position);
             historyPlaybackAnimation.Add(animatorCurrent);
             historyPlaybackFlip.Add(spriteRenderer.flipX);
+
+            if (movementJumpGrounded) {
+                if (Mathf.Abs(historyInputX[historyInputIndex]) > 0.1f)
+                    ChangeAnimation("Player_Run");
+                else
+                    ChangeAnimation("Player_Idle");
+            }
+            else {
+                if (rb.velocity.y > 0)
+                    ChangeAnimation("Player_Jump");
+                else
+                    ChangeAnimation("Player_Land");
+            }
         }
 
         // If the game is in rewind mode
@@ -94,10 +107,7 @@ public class PlayerGhost : MonoBehaviour {
             }
 
             transform.position = historyPlaybackPosition[historyPlaybackIndex];
-            if (historyPlaybackAnimation[historyPlaybackIndex] != animatorCurrent) {
-                animator.Play(historyPlaybackAnimation[historyPlaybackIndex]);
-                animatorCurrent = historyPlaybackAnimation[historyPlaybackIndex];
-            }
+            ChangeAnimation(historyPlaybackAnimation[historyPlaybackIndex]);
             spriteRenderer.flipX = historyPlaybackFlip[historyPlaybackIndex];
         }
     }
@@ -125,6 +135,13 @@ public class PlayerGhost : MonoBehaviour {
 
             if (!historyInputJump[historyInputIndex])
                 movementJumping = false;
+        }
+    }
+
+    public void ChangeAnimation(string animation) {
+        if (animation != animatorCurrent) {
+            animator.Play(animation);
+            animatorCurrent = animation;
         }
     }
 

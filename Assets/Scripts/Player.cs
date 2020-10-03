@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     public float movementJumpTime;
     public LayerMask movementGround;
 
+    private bool grounded;
     private float inputMove;
     private bool inputJump;
     private bool movementJumping;
@@ -64,10 +65,19 @@ public class Player : MonoBehaviour {
     private void Update() {
         if (GameController.main.gameState == GameController.GameState.Play) {
             // Change animation
-            if (rb.velocity.y == 0.0f && Mathf.Abs(inputMove) > 0.1f)
-                ChangeAnimation("Player_Run");
-            else if (Mathf.Abs(inputMove) == 0)
-                ChangeAnimation("Player_Idle");
+            if (grounded) {
+                if (Mathf.Abs(inputMove) > 0.1f)
+                    ChangeAnimation("Player_Run");
+                else
+                    ChangeAnimation("Player_Idle");
+            }
+            else {
+                if (rb.velocity.y > 0)
+                    ChangeAnimation("Player_Jump");
+                else
+                    ChangeAnimation("Player_Land");
+            }
+
             if (inputMove != 0.0f)
                 spriteRenderer.flipX = inputMove < 0.0f;
         }
@@ -102,7 +112,7 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         rb.velocity = new Vector2(inputMove * movementXSpeed, rb.velocity.y);
-        bool grounded = Physics2D.OverlapCircle(transform.position + movementJumpFeetPos, movementJumpFeetRadius, movementGround);
+        grounded = Physics2D.OverlapCircle(transform.position + movementJumpFeetPos, movementJumpFeetRadius, movementGround);
 
         if (grounded && inputJump) {
             movementJumping = true;
