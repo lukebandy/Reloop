@@ -50,7 +50,7 @@ public class PlayerGhost : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         // If the game state has changed
         if (GameController.main.gameStatePrevious != GameController.main.gameState) {
             if (GameController.main.gameState == GameController.GameState.Play) {
@@ -149,7 +149,10 @@ public class PlayerGhost : MonoBehaviour {
     }
 
     public void Freeze() {
-
+        animator.enabled = false;
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+        enabled = false;
     }
 
     public void OnDrawGizmos() {

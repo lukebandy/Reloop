@@ -75,4 +75,21 @@ public class GameController : MonoBehaviour {
                 break;
         }
     }
+
+    public void Reloop() {
+        gameStatePrevious = GameState.Play;
+        gameState = GameState.Rewind;
+
+        // Call a second round of updates
+        foreach (Crate crate in FindObjectsOfType<Crate>())
+            crate.Update();
+
+        foreach (PlayerGhost ghost in FindObjectsOfType<PlayerGhost>())
+            ghost.Update();
+
+        foreach (Platform platform in FindObjectsOfType<Platform>())
+            platform.Update();
+
+        // TODO: Add Pads if I get around to making those record
+    }
 }

@@ -25,7 +25,7 @@ public class Platform : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         if (GameController.main.gameStatePrevious != GameController.main.gameState) {
             if (GameController.main.gameState == GameController.GameState.Play) {
                 transform.position = historyPosition[0];

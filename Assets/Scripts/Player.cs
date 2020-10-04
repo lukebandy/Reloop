@@ -122,10 +122,12 @@ public class Player : MonoBehaviour {
 
         if (movementJumping && inputJump) {
             if (movementJumpTimer > 0) {
+                Debug.Log(movementJumpTimer);
                 rb.velocity = new Vector2(rb.velocity.x, movementJumpForce);
                 movementJumpTimer -= Time.deltaTime;
             }
             else {
+                Debug.Log("Stopped jumping");
                 movementJumping = false;
             }
         }
@@ -151,6 +153,11 @@ public class Player : MonoBehaviour {
         inputJump = context.ReadValue<float>() > 0.0f;
     }
 
+    public void InputReloop(InputAction.CallbackContext context) {
+        if (context.ReadValue<float>() > 0.0f)
+            GameController.main.Reloop();
+    }
+
     public void ChangeAnimation(string animation) {
         if (animation != animatorCurrent) {
             animator.Play(animation);
@@ -159,7 +166,10 @@ public class Player : MonoBehaviour {
     }
 
     public void Freeze() {
-        Debug.Log("Freeze");
+        animator.enabled = false;
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+        enabled = false;
     }
 
     public void OnDrawGizmos() {
