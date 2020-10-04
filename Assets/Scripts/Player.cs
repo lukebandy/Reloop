@@ -104,14 +104,13 @@ public class Player : MonoBehaviour {
 
             gameObject.SetActive(false);
         }
-        else if (GameController.main.gameState == GameController.GameState.Paused) {
-            // TODO: Test this and resume on play
-            animator.StopPlayback();
-        }
     }
 
     private void FixedUpdate() {
+        // Horizontal movement
         rb.velocity = new Vector2(inputMove * movementXSpeed, rb.velocity.y);
+
+        // Jumping
         grounded = Physics2D.OverlapCircle(transform.position + movementJumpFeetPos, movementJumpFeetRadius, movementGround);
 
         if (grounded && inputJump) {
@@ -157,6 +156,10 @@ public class Player : MonoBehaviour {
             animator.Play(animation);
             animatorCurrent = animation;
         }
+    }
+
+    public void Freeze() {
+        Debug.Log("Freeze");
     }
 
     public void OnDrawGizmos() {

@@ -145,6 +145,10 @@ public class PlayerGhost : MonoBehaviour {
         }
     }
 
+    public void Freeze() {
+
+    }
+
     public void OnDrawGizmos() {
         if (movementJumpGrounded)
             Gizmos.color = Color.green;

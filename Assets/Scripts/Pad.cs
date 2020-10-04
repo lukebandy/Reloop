@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Pad : MonoBehaviour {
 
+    public Vector2 checkPosition;
+    public Vector2 checkSize;
+
     public Sprite spriteUnweighted;
     public Sprite spriteWeighted;
 
@@ -22,7 +25,7 @@ public class Pad : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, new Vector2(0.8f, 0.8f), 0.0f, Vector2.zero, 0.0f);
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position + new Vector3(checkPosition.x, checkPosition.y), checkSize, 0.0f, Vector2.zero, 0.0f);
         bool weightedNew = hits.Length > 0;
 
         if (weighted != weightedNew) {
@@ -36,5 +39,10 @@ public class Pad : MonoBehaviour {
         }
 
         weighted = weightedNew;
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(transform.position + new Vector3(checkPosition.x, checkPosition.y), checkSize);
     }
 }

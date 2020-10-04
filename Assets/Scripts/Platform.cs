@@ -55,15 +55,15 @@ public class Platform : MonoBehaviour {
         }        
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Ghost")) {
-            collision.collider.transform.SetParent(transform);
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.CompareTag("Player") || collision.CompareTag("Ghost")) {
+            collision.transform.SetParent(transform);
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision) {
+    private void OnTriggerExit2D(Collider2D collision) {
         if ((collision.transform.CompareTag("Player") || collision.transform.CompareTag("Ghost")) && collision.gameObject.activeSelf) {
-            collision.collider.transform.SetParent(null);
+            collision.transform.SetParent(null);
         }
     }
 
@@ -76,6 +76,7 @@ public class Platform : MonoBehaviour {
         // TODO: Make this work better in play mode
         if (collider == null)
             collider = GetComponent<BoxCollider2D>();
-        Gizmos.DrawWireCube(transform.position + new Vector3(positionOpen.x, positionOpen.y), collider.size);
+        if (positionClosed == null)
+            Gizmos.DrawWireCube(transform.position + new Vector3(positionOpen.x, positionOpen.y), collider.size);
     }
 }

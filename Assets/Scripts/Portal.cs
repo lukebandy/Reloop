@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour {
+
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start() {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -16,7 +19,9 @@ public class Portal : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision) {
         if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Ghost")) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            audioSource.Play();
+            collision.BroadcastMessage("Freeze");
+            FindObjectOfType<LevelLoader>().LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

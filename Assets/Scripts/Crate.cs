@@ -6,6 +6,7 @@ public class Crate : MonoBehaviour {
 
     private Rigidbody2D rb;
     private new Collider2D collider;
+    private AudioSource audioSource;
 
     private int historyIndex;
     private List<float> historyTimestamp;
@@ -16,6 +17,7 @@ public class Crate : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
 
         historyTimestamp = new List<float>();
         historyPosition = new List<Vector3>();
@@ -56,6 +58,12 @@ public class Crate : MonoBehaviour {
             }
             transform.position = historyPosition[historyIndex];
             transform.rotation = historyRotation[historyIndex];
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision) {
+        if (collider.CompareTag("Ground")) {
+            audioSource.Play();
         }
     }
 }

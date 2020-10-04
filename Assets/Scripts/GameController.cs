@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -45,11 +46,18 @@ public class GameController : MonoBehaviour {
             case GameState.Rewind:
                 gameTime -= Time.deltaTime * 3.0f;
                 // Go back to play mode
-                if (gameTime <= 0.0f && levelRewindsLeft > 0) {
-                    gameTime = 0.0f;
-                    gameState = GameState.Play;
-                    player.gameObject.SetActive(true);
-                    levelRewindsLeft--;
+                if (gameTime <= 0.0f) {
+                    // New loop
+                    if (levelRewindsLeft > 0) {
+                        gameTime = 0.0f;
+                        gameState = GameState.Play;
+                        player.gameObject.SetActive(true);
+                        levelRewindsLeft--;
+                    }
+                    // Lost game
+                    else {
+                        FindObjectOfType<LevelLoader>().LoadLevel(SceneManager.GetActiveScene().buildIndex);
+                    }
                 }
                 break;
         }
