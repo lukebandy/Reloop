@@ -146,7 +146,6 @@ public class Player : MonoBehaviour {
 
     public void InputMove(InputAction.CallbackContext context) {
         inputMove = context.ReadValue<Vector2>().x;
-        Debug.Log(inputMove);
     }
 
     public void InputJump(InputAction.CallbackContext context) {

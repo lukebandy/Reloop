@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour {
     // Start is called before the first frame update
@@ -11,5 +12,11 @@ public class Portal : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
+    }
+
+    private void OnTriggerStay2D(Collider2D collision) {
+        if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Ghost")) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }
