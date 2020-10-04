@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour {
 
     public TextMeshProUGUI textTimeremaining;
     public Image[] imageRewinds;
     public Image imageRewinding;
+    public TextMeshProUGUI textLevel;
     public Button buttonQuit;
 
     public Sprite spriteRewindsUnused;
@@ -23,12 +25,14 @@ public class UI : MonoBehaviour {
         for (int i = 0; i < imageRewinds.Length; i++)
             imageRewinds[i].enabled = i < GameController.main.levelRewindsMax;
 
+        textLevel.text = "LEVEL " + SceneManager.GetActiveScene().buildIndex.ToString();
+
         buttonQuit.enabled = Application.platform != RuntimePlatform.WebGLPlayer;
     }
 
     // Update is called once per frame
     void Update() {
-        textTimeremaining.text = "RELOOP IN " + Mathf.Round((GameController.main.levelTime - GameController.main.gameTime)).ToString() + " SECONDS";
+        textTimeremaining.text = "RELOOP IN " + Mathf.FloorToInt((GameController.main.levelTime - GameController.main.gameTime)).ToString() + " SECONDS";
         imageRewinding.enabled = GameController.main.gameState == GameController.GameState.Rewind;
 
         for (int i = 0; i < GameController.main.levelRewindsMax; i++) {

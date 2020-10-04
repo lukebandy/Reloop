@@ -19,7 +19,8 @@ public class Portal : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision) {
         if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Ghost")) {
-            audioSource.Play();
+            if (!audioSource.isPlaying)
+                audioSource.Play();
             collision.BroadcastMessage("Freeze");
             FindObjectOfType<LevelLoader>().LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
         }

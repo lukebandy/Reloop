@@ -98,6 +98,9 @@ public class PlayerGhost : MonoBehaviour {
                 else
                     ChangeAnimation("Player_Land");
             }
+
+            if (historyInputX[historyInputIndex] != 0.0f)
+                spriteRenderer.flipX = historyInputX[historyInputIndex] < 0.0f;
         }
 
         // If the game is in rewind mode

@@ -49,8 +49,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementXSpeed: 0
+  movementJumpForce: 0
+  movementJumpTime: 0
+  movementGround:
+    serializedVersion: 2
+    m_Bits: 0
+  movementJumpFeetPos: {x: 0, y: -0.5, z: 0}
+  movementJumpFeetRadius: 0.1
   historyInputTimestamp: []
   historyInputX: []
+  historyInputJump: 
   historyPlaybackTimestamp: []
   historyPlaybackPosition: []
   historyPlaybackAnimation: []
@@ -159,9 +167,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.05}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
 --- !u!82 &-1722133400306051577
 AudioSource:
   m_ObjectHideFlags: 0

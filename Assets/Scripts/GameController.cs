@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
     public static GameController main;
 
+    private AudioSource audioSource;
+
     public int levelRewindsMax;
     [HideInInspector]public int levelRewindsLeft;
     public float levelTime;
 
-    public enum GameState { Play, Rewind, Paused };
+    public enum GameState { Play, Rewind };
     [HideInInspector] public GameState gameState;
     [HideInInspector] public GameState gameStatePrevious;
     [HideInInspector] public float gameTime;
@@ -20,8 +21,9 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
         main = this;
+
+        audioSource = GetComponent<AudioSource>();
 
         gameState = GameState.Play;
         gameTime = 0.0f;
@@ -36,7 +38,15 @@ public class GameController : MonoBehaviour {
 
         switch (gameState) {
             case GameState.Play:
+                int gameTimeRemainingPrevious = Mathf.FloorToInt(levelTime - gameTime);
+
                 gameTime += Time.deltaTime;
+
+                int gameTimeRemaining = Mathf.FloorToInt(levelTime - gameTime);
+                if (gameTimeRemaining != gameTimeRemainingPrevious) {
+                    if (gameTimeRemaining == 0 || gameTimeRemaining == 1 || gameTimeRemaining == 2)
+                        audioSource.Play();
+                }
 
                 if (gameTime >= levelTime) {
                     gameState = GameState.Rewind;
@@ -48,15 +58,18 @@ public class GameController : MonoBehaviour {
                 // Go back to play mode
                 if (gameTime <= 0.0f) {
                     // New loop
+                    gameTime = 0.0f;
+                    gameState = GameState.Play;
+                    player.gameObject.SetActive(true);
+
                     if (levelRewindsLeft > 0) {
-                        gameTime = 0.0f;
-                        gameState = GameState.Play;
-                        player.gameObject.SetActive(true);
                         levelRewindsLeft--;
                     }
                     // Lost game
                     else {
-                        FindObjectOfType<LevelLoader>().LoadLevel(SceneManager.GetActiveScene().buildIndex);
+                        foreach (PlayerGhost ghost in FindObjectsOfType<PlayerGhost>())
+                            Destroy(ghost.gameObject);
+                        levelRewindsLeft = levelRewindsMax;
                     }
                 }
                 break;
