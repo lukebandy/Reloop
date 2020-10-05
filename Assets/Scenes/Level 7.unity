@@ -2049,6 +2049,14 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9077966814258487597, guid: 8502fac1b4a4a4e448cfb404a5cc576a, type: 3}
+      propertyPath: m_Constraints
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077966814258487597, guid: 8502fac1b4a4a4e448cfb404a5cc576a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 0a2ad6a0d7bc27d40a04251422f1d981, type: 2}
     - target: {fileID: 9077966814258487599, guid: 8502fac1b4a4a4e448cfb404a5cc576a, type: 3}
       propertyPath: m_Name
       value: Crate
